@@ -12,17 +12,42 @@ class App extends Component {
       { id: 3, title: 'Learn a martial art', description: 'To exact vengeance upon my enemies' },
     ]
     super();
-    this.state = { ideas: [] }
+    this.state = { ideas: [], error:'', loading: 'Loading...' }
   }
 
+  componentDidMount = () => {
+    // debugger
+    fetch('http://localhost:3001/api/v1/ideas')
+      .then(response => response.json())
+      .then(data => this.setState({ideas: [...data], loading: ''}))
+      .catch(error => this.setState({error: error.message, loading: ''}))
+  } 
+
   addIdea = (newIdea) => {
-    this.setState({ ideas: [...this.state.ideas, newIdea] })
+    fetch("http://localhost:3001/api/v1/ideas", 
+    {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: newIdea.id,
+        title: newIdea.title,
+        description: newIdea.description
+      })
+    })
+    .then(this.setState({ ideas: [...this.state.ideas, newIdea] }))
+    .catch(error => alert(error))
   }
 
   deleteIdea = (id) => {
-    console.log(id);
-    const filteredIdeas = this.state.ideas.filter(idea => idea.id != id);
-    this.setState({ ideas: filteredIdeas })
+    fetch(`http://localhost:3001/api/v1/ideas/${id}`, {
+      method: "DELETE"
+    })
+      .then(
+        this.setState({ ideas: this.state.ideas.filter(idea => idea.id !== id) })
+      )
+      .catch((error) => alert(error))
   }
 
   render() {
@@ -30,6 +55,8 @@ class App extends Component {
       <main className='App'>
         <h1>Ideabox</h1>
         <Form addIdea={this.addIdea}/>
+        {this.state.error && <h2>{this.state.error}</h2>}
+        {this.state.loading && <h2>{this.state.loading}</h2>}
         {!this.state.ideas.length && <h2>No ideas yet -- add some!</h2>}
         <Ideas ideas={this.state.ideas} deleteIdea={this.deleteIdea}/>
       </main>
