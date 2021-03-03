@@ -17,7 +17,7 @@ class Form extends Component {
   submitIdea = event => {
     event.preventDefault();
     const newIdea = {
-      id: Date.now,
+      id: Date.now(),
       ...this.state
     }
     this.props.addIdea(newIdea)
