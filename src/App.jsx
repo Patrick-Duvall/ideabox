@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import Ideas from './Ideas'
+import Form from './Form'
 import './App.css'
 
 class App extends Component {
-
-
 
   constructor() {
     const ideas = [
@@ -13,13 +12,19 @@ class App extends Component {
       { id: 3, title: 'Learn a martial art', description: 'To exact vengeance upon my enemies' },
     ]
     super();
-    this.state = { ideas: ideas }
+    this.state = { ideas: [] }
+  }
+
+  addIdea = (newIdea) => {
+    this.setState({ ideas: [...this.state.ideas, newIdea] })
   }
 
   render() {
     return (
       <main className='App'>
         <h1>Ideabox</h1>
+        <Form addIdea={this.addIdea}/>
+        {!this.state.ideas.length && <h2>No ideas yet -- add some!</h2>}
         <Ideas ideas={this.state.ideas}/>
       </main>
     )
