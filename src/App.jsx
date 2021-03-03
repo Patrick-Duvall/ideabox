@@ -24,13 +24,30 @@ class App extends Component {
   } 
 
   addIdea = (newIdea) => {
-    this.setState({ ideas: [...this.state.ideas, newIdea] })
+    fetch("http://localhost:3001/api/v1/ideas", 
+    {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: newIdea.id,
+        title: newIdea.title,
+        description: newIdea.description
+      })
+    })
+    .then(this.setState({ ideas: [...this.state.ideas, newIdea] }))
+    .catch(error => alert(error))
   }
 
   deleteIdea = (id) => {
-    console.log(id);
-    const filteredIdeas = this.state.ideas.filter(idea => idea.id !== id);
-    this.setState({ ideas: filteredIdeas })
+    fetch(`http://localhost:3001/api/v1/ideas/${id}`, {
+      method: "DELETE"
+    })
+      .then(
+        this.setState({ ideas: this.state.ideas.filter(idea => idea.id !== id) })
+      )
+      .catch((error) => alert(error))
   }
 
   render() {
