@@ -1,6 +1,6 @@
 # Idea Box
 
-This is a basic React App written off of [This Lesson](https://frontend.turing.io/lessons/module-3/react-3-advanced-data-management.html. It implements a single page 'Idea Box' App with a form for creating ideas and buttons for deleting them. It keeps the Node backend up to date via fetch requests.
+This is a basic React App written off of [This Lesson](https://frontend.turing.io/lessons/module-3/react-3-advanced-data-management.html) It implements a single page 'Idea Box' App with a form for creating ideas and buttons for deleting them. It keeps the Node backend up to date via fetch requests.
 
 ### To run the App locally
 Install the Frontend, which will run on localhost:3000
